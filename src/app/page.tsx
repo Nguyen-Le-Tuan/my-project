@@ -1,103 +1,201 @@
-import Image from "next/image";
+'use client';
+
+import type {ReactNode} from 'react';
+import {useState, useEffect} from 'react';
+import Image from 'next/image'; // Import next/image
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarTrigger,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarInset,
+} from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button'; // Ensure Button is imported if used outside sidebar
+import { Toaster } from '@/components/ui/toaster';
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent
+} from '@/components/ui/card'; // Import Card components from shadcn
+import ProfileUpload from '@/components/profile-upload';
+import QuestionGenerator from '@/components/question-generator';
+import ProgressTracker from '@/components/progress-tracker';
+import {
+  LayoutDashboard,
+  HelpCircle,
+  BookOpen,
+  Settings,
+  User,
+} from 'lucide-react';
+
+type SidebarMenuItemType = {
+  href: string;
+  icon: ReactNode;
+  label: string;
+  component: ReactNode;
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [studentName, setStudentName] = useState<string>('Student');
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string>('dashboard');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  // Load state from local storage on mount
+  useEffect(() => {
+    const storedName = localStorage.getItem('studentName');
+    const storedPic = localStorage.getItem('profilePicture');
+    if (storedName) setStudentName(storedName);
+    if (storedPic) setProfilePicture(storedPic);
+  }, []);
+
+  // Save state to local storage when it changes
+  useEffect(() => {
+    localStorage.setItem('studentName', studentName);
+    if (profilePicture) {
+      localStorage.setItem('profilePicture', profilePicture);
+    } else {
+      localStorage.removeItem('profilePicture');
+    }
+  }, [studentName, profilePicture]);
+
+  const handleProfileUpdate = (name: string, picture: string | null) => {
+    setStudentName(name);
+    setProfilePicture(picture);
+  };
+
+  const menuItems: SidebarMenuItemType[] = [
+    {
+      href: '#dashboard',
+      icon: <LayoutDashboard />,
+      label: 'Dashboard',
+      component: <ProgressTracker />,
+    },
+    {
+      href: '#practice',
+      icon: <HelpCircle />,
+      label: 'Practice',
+      component: <QuestionGenerator profilePicture={profilePicture} />, // Pass profile picture here
+    },
+    {
+      href: '#profile',
+      icon: <User />,
+      label: 'Profile',
+      component: (
+        <ProfileUpload
+          onProfileUpdate={handleProfileUpdate}
+          initialName={studentName}
+          initialPicture={profilePicture}
+        />
+      ),
+    },
+  ];
+
+  const renderContent = () => {
+    const activeItem = menuItems.find(
+      (item) => item.href === `#${activeSection}`
+    );
+    return activeItem ? activeItem.component : menuItems[0].component; // Default to Dashboard
+  };
+
+  return (
+    <SidebarProvider defaultOpen={true}>
+      <Sidebar>
+        <SidebarHeader>
+          <div className="flex items-center gap-2 p-2">
+            <BookOpen className="h-6 w-6 text-primary" />
+            <h1 className="text-xl font-semibold">StudyPark</h1>
+          </div>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarMenu>
+            {menuItems.map((item) => (
+              <SidebarMenuItem key={item.href}>
+                <SidebarMenuButton
+                  onClick={() => setActiveSection(item.href.substring(1))}
+                  isActive={activeSection === item.href.substring(1)}
+                  tooltip={item.label}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarContent>
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={() => setActiveSection('settings')}
+                isActive={activeSection === 'settings'}
+                tooltip="Settings"
+              >
+                <Settings />
+                <span>Settings</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+      </Sidebar>
+      <SidebarInset>
+        <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b bg-background px-4 shadow-sm sm:justify-end">
+          <SidebarTrigger className="sm:hidden" />
+          <div className="flex items-center gap-4">
+            <span className="font-medium">Welcome, {studentName}!</span>
+            {profilePicture ? (
+              // Use next/image for optimized profile picture
+              <Image
+                src={profilePicture}
+                alt="Profile"
+                width={32} // Set appropriate width
+                height={32} // Set appropriate height
+                className="h-8 w-8 rounded-full object-cover"
+              />
+            ) : (
+              <User className="h-8 w-8 rounded-full bg-muted p-1 text-muted-foreground" />
+            )}
+          </div>
+        </header>
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+          {renderContent()}
+          {activeSection === 'settings' && (
+             <Card className="shadow-lg rounded-lg">
+              <CardHeader>
+                <CardTitle>Settings</CardTitle>
+                <CardDescription>Manage your application settings.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p>Settings section is under construction.</p>
+                 {/* Example button usage within settings */}
+                 {/* <Button variant="outline">Reset Progress</Button> */}
+              </CardContent>
+             </Card>
+          )}
+        </main>
+      </SidebarInset>
+      <Toaster />
+    </SidebarProvider>
   );
 }
+
+// Removed dummy Card components as they are now imported from shadcn/ui
+
+// import React from 'react';
+
+// const HomePage = () => {
+//   return (
+//     <div className="bg-red-500 text-white p-4">
+//       <h1 className="text-2xl font-bold">Hello, Tailwind!</h1>
+//       <p>This should be styled with Tailwind CSS.</p>
+//     </div>
+//   );
+// };
+
+// export default HomePage;

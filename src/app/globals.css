@@ -1,9 +1,19 @@
 @import "tailwindcss";
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
+
+
+/* body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}  */
+
+
 
 @theme inline {
   --color-background: var(--background);
@@ -19,8 +29,80 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  :root {
+    --background: 0 0% 100%; /* Light background */
+    --foreground: 0 0% 3.9%; /* Dark text */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 200 67% 77%; /* Soft blue */
+    --primary-foreground: 210 40% 5%; /* Darker blue for contrast on primary */
+    --secondary: 180 30% 82%; /* Light green */
+    --secondary-foreground: 180 25% 25%; /* Darker green for contrast */
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 54 77% 74%; /* Yellow */
+    --accent-foreground: 54 50% 20%; /* Darker yellow/brown for contrast */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 200 67% 70%; /* Slightly darker blue for ring */
+    --chart-1: 200 67% 77%; /* Soft blue */
+    --chart-2: 180 30% 82%; /* Light green */
+    --chart-3: 54 77% 74%; /* Yellow */
+    --chart-4: 210 40% 50%; /* A darker blue */
+    --chart-5: 30 80% 65%; /* An orange */
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 200 67% 77%;
+    --sidebar-primary-foreground: 210 40% 5%;
+    --sidebar-accent: 180 30% 82%;
+    --sidebar-accent-foreground: 180 25% 25%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 200 67% 70%;
+  }
+  .dark {
+    --background: 220 15% 10%; /* Dark background */
+    --foreground: 0 0% 98%; /* Light text */
+    --card: 220 15% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 200 67% 77%; /* Soft blue */
+    --primary-foreground: 210 40% 5%; /* Darker blue for contrast */
+    --secondary: 180 30% 82%; /* Light green */
+    --secondary-foreground: 180 25% 25%; /* Darker green for contrast */
+    --muted: 220 15% 15%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 54 77% 74%; /* Yellow */
+    --accent-foreground: 54 50% 20%; /* Darker yellow/brown for contrast */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 200 67% 70%; /* Slightly darker blue for ring */
+    --chart-1: 200 67% 77%; /* Soft blue */
+    --chart-2: 180 30% 82%; /* Light green */
+    --chart-3: 54 77% 74%; /* Yellow */
+    --chart-4: 210 40% 50%; /* A darker blue */
+    --chart-5: 30 80% 65%; /* An orange */
+    --sidebar-background: 220 15% 10%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 200 67% 77%;
+    --sidebar-primary-foreground: 210 40% 5%;
+    --sidebar-accent: 180 30% 82%;
+    --sidebar-accent-foreground: 180 25% 25%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 200 67% 70%;
+  }
+  /* * {
+    @apply border-border;
+  } */
+  body {
+    @apply bg-background text-foreground;
+  }
 }
