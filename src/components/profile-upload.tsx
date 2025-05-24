@@ -1,14 +1,14 @@
 'use client';
 
-import type {ChangeEvent, FormEvent} from 'react';
-import {useState, useRef} from 'react';
-import {Button} from '@/components/ui/button';
-import {Input} from '@/components/ui/input';
-import {Label} from '@/components/ui/label';
-import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
-import {Card, CardContent, CardHeader, CardTitle, CardDescription} from '@/components/ui/card';
-import {User} from 'lucide-react';
-import {useToast} from '@/hooks/use-toast';
+import type { ChangeEvent, FormEvent } from 'react';
+import { useState, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { User } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface ProfileUploadProps {
   onProfileUpdate: (name: string, picture: string | null) => void;
@@ -24,13 +24,15 @@ export default function ProfileUpload({
   const [name, setName] = useState<string>(initialName || 'Student');
   const [preview, setPreview] = useState<string | null>(initialPicture);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [email, setEmail] = useState<string>('');
+  const [mobile, setMobile] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // Basic validation for image type and size (e.g., max 2MB)
       if (!file.type.startsWith('image/')) {
         toast({
           title: 'Invalid File Type',
@@ -67,10 +69,13 @@ export default function ProfileUpload({
       });
       return;
     }
+
+    // Example: Extend onProfileUpdate or save all data
     onProfileUpdate(name, preview);
+
     toast({
       title: 'Profile Updated',
-      description: 'Your name and profile picture have been saved.',
+      description: 'Your profile information has been saved.',
     });
   };
 
@@ -91,8 +96,8 @@ export default function ProfileUpload({
               className="h-24 w-24 cursor-pointer ring-2 ring-offset-2 ring-primary hover:ring-accent transition-all duration-300"
               onClick={handleAvatarClick}
               aria-label="Upload profile picture"
-              tabIndex={0} // Make it focusable
-              onKeyDown={(e) => e.key === 'Enter' && handleAvatarClick()} // Allow keyboard activation
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && handleAvatarClick()}
             >
               <AvatarImage src={preview ?? undefined} alt="Profile Preview" />
               <AvatarFallback>
@@ -104,14 +109,14 @@ export default function ProfileUpload({
               id="profilePicture"
               accept="image/*"
               onChange={handleFileChange}
-              className="hidden" // Hide the default input
+              className="hidden"
               ref={fileInputRef}
-              aria-hidden="true" // Hide from accessibility tree as the avatar handles interaction
+              aria-hidden="true"
             />
             <Button type="button" variant="outline" size="sm" onClick={handleAvatarClick}>
               {preview ? 'Change Picture' : 'Upload Picture'}
             </Button>
-             {preview && (
+            {preview && (
               <Button
                 type="button"
                 variant="ghost"
@@ -121,7 +126,7 @@ export default function ProfileUpload({
                   setPreview(null);
                   setSelectedFile(null);
                   if (fileInputRef.current) {
-                    fileInputRef.current.value = ''; // Reset file input
+                    fileInputRef.current.value = '';
                   }
                 }}
               >
@@ -143,7 +148,46 @@ export default function ProfileUpload({
             />
           </div>
 
-          <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email account</Label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="yourname@example.com"
+              className="rounded-md shadow-sm"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="mobile">Mobile number</Label>
+            <Input
+              id="mobile"
+              type="tel"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              placeholder="Add number"
+              className="rounded-md shadow-sm"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="location">Location</Label>
+            <Input
+              id="location"
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="USA"
+              className="rounded-md shadow-sm"
+            />
+          </div>
+
+          <Button
+            type="submit"
+           className="w-full bg-primary hover:bg-[#2489FF] bg-primary/90 text-primary-foreground hover:text-white rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+          >
             Save Profile
           </Button>
         </form>
