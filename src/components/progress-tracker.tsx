@@ -14,8 +14,6 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
   ChartConfig,
 } from '@/components/ui/chart';
 import {
@@ -210,7 +208,7 @@ export default function ProgressTracker() {
         <CardHeader>
           <CardTitle>Progress by Topic</CardTitle>
           <CardDescription>
-            Average scores for topics you've practiced.
+            Average scores for topics you have practiced.
           </CardDescription>
         </CardHeader>
         <CardContent>
