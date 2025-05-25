@@ -8,7 +8,7 @@
 # CORS(app)
 
 # # Cấu hình API Key Gemini
-# api_key = "AIzaSyB9ic7dfMcC6Ca8ovbXJP833g8YXturH-s"  # <-- thay bằng key của bạn
+# api_key = "AIzaSyB9ic7dfMcC6Ca8ovbXJP833g8YXturH-s"  
 # genai.configure(api_key=api_key)
 # model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')
 
@@ -81,7 +81,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Cấu hình API Key Gemini
-api_key = "AIzaSyB9ic7dfMcC6Ca8ovbXJP833g8YXturH-s"  # <-- thay bằng key của bạn
+api_key = "AIzaSyB9ic7dfMcC6Ca8ovbXJP833g8YXturH-s"  
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')
 
